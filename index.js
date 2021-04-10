@@ -1,4 +1,4 @@
-import * as admin from "firebase-admin";
+const admin = require("firebase-admin");
 
 const collectionTools = require("./src/collectionTools");
 const collectionParser = require("./collectionStringParser");
@@ -23,4 +23,23 @@ export function MoveCollection(firestore, sourceCollection, targetCollection)
     const targetRef = collectionParser.Parse(firestore, targetCollection);
 
     return collectionTools.MoveCollection(sourceRef, targetRef);
+} 
+
+export function CopyCollection(firestore, sourceCollection, targetCollection)
+{
+    Initialise();
+
+    const sourceRef = collectionParser.Parse(firestore, sourceCollection);
+    const targetRef = collectionParser.Parse(firestore, targetCollection);
+
+    return collectionTools.CopyCollection(sourceRef, targetRef);
+} 
+
+export function DeleteCollection(firestore, collection)
+{
+    Initialise();
+
+    const collectionRef = collectionParser.Parse(firestore, collection);
+
+    return collectionTools.CopyCollection(collectionRef);
 } 

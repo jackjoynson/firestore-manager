@@ -1,6 +1,6 @@
 {
   "name": "firestore-manager",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Firebase firestore manager",
   "main": "index.js",
   "scripts": {
