@@ -16,4 +16,5 @@ function Parse(db, collectionString)
         }
         docStep = !docStep;
     });
+    return ref;
 }
