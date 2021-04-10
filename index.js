@@ -1,21 +1,23 @@
 const admin = require("firebase-admin");
 
 const collectionTools = require("./src/collectionTools");
-const collectionParser = require("./collectionStringParser");
+const collectionParser = require("./src/collectionStringParser");
+
+module.exports = {Initialise, MoveCollection, CopyCollection, DeleteCollection};
 
 let firestore = false;
 
-export function Initialise()
+function Initialise()
 {    
     if(firestore === false)
     {
-        const serviceAccount = require("serviceaccount.json");
+        const serviceAccount = require("./serviceaccount.json");
         admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
         firestore = admin.firestore();
     }
 }
 
-export function MoveCollection(firestore, sourceCollection, targetCollection)
+function MoveCollection(firestore, sourceCollection, targetCollection)
 {
     Initialise();
 
@@ -25,7 +27,7 @@ export function MoveCollection(firestore, sourceCollection, targetCollection)
     return collectionTools.MoveCollection(sourceRef, targetRef);
 } 
 
-export function CopyCollection(firestore, sourceCollection, targetCollection)
+function CopyCollection(firestore, sourceCollection, targetCollection)
 {
     Initialise();
 
@@ -35,7 +37,7 @@ export function CopyCollection(firestore, sourceCollection, targetCollection)
     return collectionTools.CopyCollection(sourceRef, targetRef);
 } 
 
-export function DeleteCollection(firestore, collection)
+function DeleteCollection(firestore, collection)
 {
     Initialise();
 

@@ -1,4 +1,6 @@
-export function CopyCollection(sourceRef, targetRef)
+module.exports = {CopyCollection, DeleteCollection, MoveCollection};
+
+function CopyCollection(sourceRef, targetRef)
 {
     return sourceRef.get()
         .then(qrySnapshot=>{
@@ -10,7 +12,7 @@ export function CopyCollection(sourceRef, targetRef)
         });
 } 
 
-export function DeleteCollection(collection)
+function DeleteCollection(collection)
 {
     return collection.get()
         .then(qrySnapshot=>{
@@ -21,7 +23,7 @@ export function DeleteCollection(collection)
         });
 } 
 
-export function MoveCollection(sourceRef, targetRef)
+function MoveCollection(sourceRef, targetRef)
 {
     return sourceRef.get()
         .then(qrySnapshot=>{

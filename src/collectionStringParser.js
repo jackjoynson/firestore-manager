@@ -1,4 +1,6 @@
-export function Parse(db, collectionString)
+module.exports = {Parse};
+
+function Parse(db, collectionString)
 {
     const splits = collectionString.split("/");
     let ref = db;
