@@ -43,5 +43,5 @@ function DeleteCollection(collection)
 
     const collectionRef = collectionParser.Parse(firestore, collection);
 
-    return collectionTools.CopyCollection(collectionRef);
+    return collectionTools.DeleteCollection(collectionRef);
 } 
