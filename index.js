@@ -11,7 +11,7 @@ function Initialise()
 {    
     if(firestore === false)
     {
-        const serviceAccount = require("./serviceaccount.json");
+        const serviceAccount = require("../../serviceaccount.json");
         admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
         firestore = admin.firestore();
     }
