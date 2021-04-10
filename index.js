@@ -17,7 +17,7 @@ function Initialise()
     }
 }
 
-function MoveCollection(firestore, sourceCollection, targetCollection)
+function MoveCollection(sourceCollection, targetCollection)
 {
     Initialise();
 
@@ -27,7 +27,7 @@ function MoveCollection(firestore, sourceCollection, targetCollection)
     return collectionTools.MoveCollection(sourceRef, targetRef);
 } 
 
-function CopyCollection(firestore, sourceCollection, targetCollection)
+function CopyCollection(sourceCollection, targetCollection)
 {
     Initialise();
 
@@ -37,7 +37,7 @@ function CopyCollection(firestore, sourceCollection, targetCollection)
     return collectionTools.CopyCollection(sourceRef, targetRef);
 } 
 
-function DeleteCollection(firestore, collection)
+function DeleteCollection(collection)
 {
     Initialise();
 
