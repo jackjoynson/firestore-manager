@@ -1,4 +1,4 @@
-module.exports = {CopyCollection, DeleteCollection, MoveCollection};
+module.exports = {CopyCollection, DeleteCollection, MoveCollection, MapCollection};
 
 function CopyCollection(sourceRef, targetRef)
 {
@@ -9,6 +9,7 @@ function CopyCollection(sourceRef, targetRef)
                 const data = doc.data();
                 promises.push(targetRef.doc(doc.id).set(data));
             });
+            return Promise.all(promises);
         });
 } 
 
@@ -20,6 +21,7 @@ function DeleteCollection(collection)
             qrySnapshot.forEach(doc=>{
                 promises.push(collection.doc(doc.id).delete());
             });
+            return Promise.all(promises);
         });
 } 
 
@@ -33,5 +35,25 @@ function MoveCollection(sourceRef, targetRef)
                 promises.push(targetRef.doc(doc.id).set(data));
                 promises.push(sourceRef.doc(doc.id).delete());
             });
+            return Promise.all(promises);
+        });
+} 
+
+//map function takes in the data and should return an object with include:bool to update this 
+//document and data:object with the data to pass to the document.update
+function MapCollection(collection, mapFunction)
+{
+    return collection.get()
+        .then(qrySnapshot=>{
+            const promises = [];
+            qrySnapshot.forEach(doc=>{
+                const data = doc.data();
+                const mapResult = mapFunction(data);
+                if(mapResult.include)
+                {
+                    promises.push(collection.doc(doc.id).update(mapResult.data));
+                }
+            });
+            return Promise.all(promises);
         });
 } 

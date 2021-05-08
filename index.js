@@ -3,7 +3,7 @@ const admin = require("firebase-admin");
 const collectionTools = require("./src/collectionTools");
 const collectionParser = require("./src/collectionStringParser");
 
-module.exports = {Initialise, MoveCollection, CopyCollection, DeleteCollection};
+module.exports = {Initialise, MoveCollection, CopyCollection, DeleteCollection, MapCollection};
 
 let firestore = false;
 
@@ -45,3 +45,15 @@ function DeleteCollection(collection)
 
     return collectionTools.DeleteCollection(collectionRef);
 } 
+
+//map function takes in the data and should return an object with bool field 'include'
+// to indicate if to update this document and a object field 'data' with the data to 
+// pass to the document.update
+function MapCollection(collection, mapFunction)
+{
+    Initialise();
+
+    const collectionRef = collectionParser.Parse(firestore, collection);
+
+    return collectionTools.MapCollection(collectionRef, mapFunction);
+}
