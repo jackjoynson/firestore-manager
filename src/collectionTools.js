@@ -1,4 +1,4 @@
-module.exports = {CopyCollection, DeleteCollection, MoveCollection, MapCollection};
+module.exports = {CopyCollection, DeleteCollection, MoveCollection, MapCollection, DeleteDocumentsWhere};
 
 function CopyCollection(sourceRef, targetRef)
 {
@@ -20,6 +20,22 @@ function DeleteCollection(collection)
             const promises = [];
             qrySnapshot.forEach(doc=>{
                 promises.push(collection.doc(doc.id).delete());
+            });
+            return Promise.all(promises);
+        });
+} 
+
+//conditionalFunc takes id and data. Return true to delete, false to ignore.
+function DeleteDocumentsWhere(collection, conditionalFunc)
+{
+    return collection.get()
+        .then(qrySnapshot=>{
+            const promises = [];
+            qrySnapshot.forEach(doc=>{
+                if(conditionalFunc(doc.id, doc.data()))
+                {
+                    promises.push(collection.doc(doc.id).delete());
+                }
             });
             return Promise.all(promises);
         });

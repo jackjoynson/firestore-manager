@@ -3,15 +3,19 @@ const admin = require("firebase-admin");
 const collectionTools = require("./src/collectionTools");
 const collectionParser = require("./src/collectionStringParser");
 
-module.exports = {Initialise, MoveCollection, CopyCollection, DeleteCollection, MapCollection};
+module.exports = {Initialise, MoveCollection, CopyCollection, DeleteCollection, MapCollection, DeleteDocumentsWhere};
 
 let firestore = false;
 
-function Initialise()
+function Initialise(serviceAccountPath)
 {    
     if(firestore === false)
     {
-        const serviceAccount = require("../../serviceaccount.json");
+        if(serviceAccountPath === undefined || serviceAccountPath === null)
+        {
+            serviceAccountPath = "../../serviceaccount.json";
+        }
+        const serviceAccount = require(serviceAccountPath);
         admin.initializeApp({credential: admin.credential.cert(serviceAccount)});
         firestore = admin.firestore();
     }
@@ -44,6 +48,17 @@ function DeleteCollection(collection)
     const collectionRef = collectionParser.Parse(firestore, collection);
 
     return collectionTools.DeleteCollection(collectionRef);
+} 
+
+//Deletes documents where the conditionalFunc returns true.
+//conditionalFunc takes id and data. Return true to delete, false to ignore.
+function DeleteDocumentsWhere(collection, conditionalFunc)
+{
+    Initialise();
+
+    const collectionRef = collectionParser.Parse(firestore, collection);
+
+    return collectionTools.DeleteDocumentsWhere(collectionRef, conditionalFunc);
 } 
 
 //map function takes in the data and should return an object with bool field 'include'
